@@ -7,11 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Random;
 
 @RestController
@@ -30,5 +28,17 @@ public class TodoControllers {
         logger.info("Create Todo");
         Todo todo1 = todoService.createTodo(todo);
         return new ResponseEntity<>(todo1, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Todo>> getAllTodoHandler(@RequestBody Todo todo) {
+        List<Todo> allTodos = todoService.getAllTodos();
+        return new ResponseEntity<>(allTodos, HttpStatus.OK);
+    }
+
+    @GetMapping("/{todoId}")
+    public ResponseEntity<Todo> getSingleTodoHandler(@PathVariable int todoId) {
+        Todo todo = todoService.getTodo(todoId);
+        return ResponseEntity.ok(todo);
     }
 }
