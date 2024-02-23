@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -25,6 +26,10 @@ public class TodoControllers {
 
         int id = random.nextInt(9999999);
         todo.setId(id);
+        Date currentDate = new Date();
+        logger.info("current date: {}", currentDate);
+        logger.info("todo date {}", todo.getTodoDate());
+        todo.setAddedDate(currentDate);
         logger.info("Create Todo");
         Todo todo1 = todoService.createTodo(todo);
         return new ResponseEntity<>(todo1, HttpStatus.CREATED);
