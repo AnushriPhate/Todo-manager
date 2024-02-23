@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.Date;
 import java.util.List;
@@ -58,4 +59,26 @@ public class TodoControllers {
         todoService.deleteTodo(todoId);
         return ResponseEntity.ok("Todo successfully deleted");
     }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<String> nullPointerExceptionHandler(NullPointerException ex){
+        System.out.println(ex.getMessage());
+        System.out.println("Null pointer exception generated");
+        return new ResponseEntity<>("Null pointer exception generated" + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(NumberFormatException.class)
+    public ResponseEntity<String> numberFormatExceptionHandler(NullPointerException ex){
+        System.out.println(ex.getMessage());
+        System.out.println("Number format exception generated");
+        return new ResponseEntity<>("Number format exception generated" + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+//    @ExceptionHandler(value = {NullPointerException.class, NumberFormatException.class})
+//    public ResponseEntity<String> nullPointerAndNumberFormatExceptionHandler(NullPointerException ex){
+//        System.out.println(ex.getMessage());
+//        System.out.println("Null pointer exception generated");
+//        return new ResponseEntity<>("Null pointer exception generated" + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
+
 }
