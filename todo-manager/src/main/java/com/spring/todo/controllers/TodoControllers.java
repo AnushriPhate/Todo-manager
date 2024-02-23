@@ -60,19 +60,19 @@ public class TodoControllers {
         return ResponseEntity.ok("Todo successfully deleted");
     }
 
-    @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity<String> nullPointerExceptionHandler(NullPointerException ex){
-        System.out.println(ex.getMessage());
-        System.out.println("Null pointer exception generated");
-        return new ResponseEntity<>("Null pointer exception generated" + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler(NumberFormatException.class)
-    public ResponseEntity<String> numberFormatExceptionHandler(NullPointerException ex){
-        System.out.println(ex.getMessage());
-        System.out.println("Number format exception generated");
-        return new ResponseEntity<>("Number format exception generated" + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(NullPointerException.class)
+//    public ResponseEntity<String> nullPointerExceptionHandler(NullPointerException ex){
+//        System.out.println(ex.getMessage());
+//        System.out.println("Null pointer exception generated");
+//        return new ResponseEntity<>("Null pointer exception generated" + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
+//
+//    @ExceptionHandler(NumberFormatException.class)
+//    public ResponseEntity<String> numberFormatExceptionHandler(NullPointerException ex){
+//        System.out.println(ex.getMessage());
+//        System.out.println("Number format exception generated");
+//        return new ResponseEntity<>("Number format exception generated" + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
 //    @ExceptionHandler(value = {NullPointerException.class, NumberFormatException.class})
 //    public ResponseEntity<String> nullPointerAndNumberFormatExceptionHandler(NullPointerException ex){
