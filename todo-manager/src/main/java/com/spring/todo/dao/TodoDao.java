@@ -1,5 +1,6 @@
 package com.spring.todo.dao;
 
+import com.spring.todo.helper.Helper;
 import com.spring.todo.models.Todo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class TodoDao {
@@ -28,7 +35,6 @@ public class TodoDao {
     }
 
     public void setTemplate(JdbcTemplate template) {
-
         this.template = template;
     }
 
@@ -38,6 +44,26 @@ public class TodoDao {
         int rows = template.update(insertQuery, todo.getId(), todo.getTitle(), todo.getContent(), todo.getStatus(), todo.getAddedDate(), todo.getTodoDate());
 
         logger.info("JDBC OPERATION: {} inserted", rows);
+
+        return todo;
+    }
+
+    public Todo getTodo(int id) throws ParseException {
+        String query = "select * from todos WHERE id = ?";
+        Map<String, Object> todoData = template.queryForMap(query, id);
+
+        Todo todo = new Todo();
+
+        todo.setId((int)(todoData.get("id")));
+        todo.setTitle((String)(todoData.get("title")));
+        todo.setContent((String)(todoData.get("content")));
+        todo.setStatus((String)(todoData.get("status")));
+        todo.setAddedDate(Helper.parseDate((LocalDateTime) (todoData.get("addedDate"))));
+        todo.setTodoDate(Helper.parseDate((LocalDateTime) (todoData.get("todoDate"))));
+
+
+
+
 
         return todo;
     }
