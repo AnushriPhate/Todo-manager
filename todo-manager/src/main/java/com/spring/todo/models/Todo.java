@@ -2,7 +2,6 @@ package com.spring.todo.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 
 public class Todo {
@@ -17,7 +16,10 @@ public class Todo {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date todoDate;
 
-    public Todo(int id, String title, String content, String status, Date addedDate, Date todoDate) {
+    public Todo() {
+    }
+
+    public Todo(int id, String title, String content, String status, Date addedDate, Date todoDate){
         this.id = id;
         this.title = title;
         this.content = content;
@@ -25,7 +27,6 @@ public class Todo {
         this.addedDate = addedDate;
         this.todoDate = todoDate;
     }
-
 
     public int getId() {
         return id;
