@@ -13,7 +13,9 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class TodoDao {
@@ -48,6 +50,7 @@ public class TodoDao {
         return todo;
     }
 
+    //get Single todo from database
     public Todo getTodo(int id) throws ParseException {
         String query = "select * from todos WHERE id = ?";
         Map<String, Object> todoData = template.queryForMap(query, id);
@@ -61,10 +64,32 @@ public class TodoDao {
         todo.setAddedDate(Helper.parseDate((LocalDateTime) (todoData.get("addedDate"))));
         todo.setTodoDate(Helper.parseDate((LocalDateTime) (todoData.get("todoDate"))));
 
-
-
-
-
         return todo;
+    }
+
+    //get All todo from database
+    public List<Todo> getAlltodos(){
+        String query = "select * from todos";
+        List<Map<String, Object>> maps = template.queryForList(query);
+
+        List<Todo> todos = maps.stream().map((map)->{
+            Todo todo = new Todo();
+
+            todo.setId((int)(map.get("id")));
+            todo.setTitle((String)(map.get("title")));
+            todo.setContent((String)(map.get("content")));
+            todo.setStatus((String)(map.get("status")));
+            try {
+                todo.setAddedDate(Helper.parseDate((LocalDateTime) (map.get("addedDate"))));
+                todo.setTodoDate(Helper.parseDate((LocalDateTime) (map.get("todoDate"))));
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+
+
+            return todo;
+        }).collect(Collectors.toList());
+
+        return todos;
     }
 }
