@@ -40,7 +40,7 @@ public class TodoManagerApplication implements CommandLineRunner {
 //
 //		todoDao.saveTodo(todo);
 //
-//		Todo todo = todoDao.getTodo(1234);
+//		Todo todo = todoDao.getTodo(12);
 //		logger.info("TODO : {} ", todo);
 //		todo.setTitle("This is java spring boot");
 //		todo.setContent("I have learn spring boot");
@@ -50,12 +50,12 @@ public class TodoManagerApplication implements CommandLineRunner {
 //		todoDao.updateTodo(1234, todo);
 ////
 //
-//		List<Todo> alltodos = todoDao.getAlltodos();
-//		logger.info("ALL TODOS : {}", alltodos);
+		List<Todo> alltodos = todoDao.getAlltodos();
+		logger.info("ALL TODOS : {}", alltodos);
 
 
 //		todoDao.deleteTodo(1234);
 
-		todoDao.deleteMultiple(new int[]{23, 123});
+//		todoDao.deleteMultiple(new int[]{23, 123});
 	}
 }
