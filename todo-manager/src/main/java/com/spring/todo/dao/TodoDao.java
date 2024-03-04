@@ -5,10 +5,13 @@ import com.spring.todo.models.Todo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -100,5 +103,33 @@ public class TodoDao {
         newTodo.setId(id);
         return newTodo;
 
+    }
+
+    public void deleteTodo(int id){
+        String query = "delete from todos WHERE id=?";
+        int update = template.update(query, id);
+        logger.info("DELETED : {}", update);
+    }
+
+    public void deleteMultiple(int ids[]){
+        String query = "delete from todos WHERE id=?";
+
+        int[] ints = template.batchUpdate(query, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                int id = ids[i];
+                ps.setInt(1, id);
+            }
+
+            @Override
+            public int getBatchSize() {
+                return ids.length;
+            }
+        });
+
+        for(int i :ints)
+        {
+            logger.info("DELETED {} : ", i);
+        }
     }
 }
