@@ -92,4 +92,13 @@ public class TodoDao {
 
         return todos;
     }
+
+    public Todo updateTodo(int id, Todo newTodo){
+        String query = "update todos set title=?, content=?, status=?, addedDate=?, todoDate=? WHERE id=?";
+        int update = template.update(query, newTodo.getTitle(), newTodo.getContent(), newTodo.getStatus(), newTodo.getAddedDate(), newTodo.getTodoDate(), id);
+        logger.info("UPDATED : {}", update);
+        newTodo.setId(id);
+        return newTodo;
+
+    }
 }
