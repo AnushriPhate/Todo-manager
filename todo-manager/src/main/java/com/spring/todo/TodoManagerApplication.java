@@ -29,7 +29,7 @@ public class TodoManagerApplication implements CommandLineRunner {
 //		JdbcTemplate template = todoDao.getTemplate();
 //		logger.info("Template Object : {}", template);
 //		logger.info("Template Object : {}", template.getDataSource());
-//
+
 //		Todo todo = new Todo();
 //		todo.setId(1234);
 //		todo.setTitle("This is java spring jdbc practice");
@@ -37,9 +37,9 @@ public class TodoManagerApplication implements CommandLineRunner {
 //		todo.setStatus("PENDING");
 //		todo.setAddedDate(new Date());
 //		todo.setTodoDate(new Date());
-//
+
 //		todoDao.saveTodo(todo);
-//
+
 //		Todo todo = todoDao.getTodo(12);
 //		logger.info("TODO : {} ", todo);
 //		todo.setTitle("This is java spring boot");
@@ -48,10 +48,9 @@ public class TodoManagerApplication implements CommandLineRunner {
 //		todo.setAddedDate(new Date());
 //		todo.setTodoDate(new Date());
 //		todoDao.updateTodo(1234, todo);
-////
-//
-		List<Todo> alltodos = todoDao.getAlltodos();
-		logger.info("ALL TODOS : {}", alltodos);
+
+//		List<Todo> alltodos = todoDao.getAlltodos();
+//		logger.info("ALL TODOS : {}", alltodos);
 
 
 //		todoDao.deleteTodo(1234);
