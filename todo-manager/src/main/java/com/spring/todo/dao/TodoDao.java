@@ -7,11 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -71,9 +73,37 @@ public class TodoDao {
 //        return todo;
 //    }
 
+//    public Todo getTodo(int id) throws ParseException {
+//        String query = "select * from todos WHERE id = ?";
+//        Todo todo = template.queryForObject(query, new TodoRowMapper(), id);
+//        return todo;
+//    }
+
     public Todo getTodo(int id) throws ParseException {
         String query = "select * from todos WHERE id = ?";
-        Todo todo = template.queryForObject(query, new TodoRowMapper(), id);
+        Todo todo = template.queryForObject(query, new RowMapper<Todo>() {
+            @Override
+            public Todo mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+                Todo todo = new Todo();
+
+                todo.setId((rs.getInt("id")));
+                todo.setTitle((rs.getString("title")));
+                todo.setContent((rs.getString("content")));
+                todo.setStatus((rs.getString("status")));
+                try {
+
+                    todo.setAddedDate(Helper.parseDate((LocalDateTime) (rs.getObject("addedDate"))));
+                    todo.setTodoDate(Helper.parseDate((LocalDateTime) (rs.getObject("todoDate"))));
+
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+                return todo;
+            }
+        }, id);
         return todo;
     }
 
@@ -103,11 +133,37 @@ public class TodoDao {
 //        return todos;
 //    }
 
+//    public List<Todo> getAlltodos(){
+//        String query = "select * from todos";
+//        List<Todo> todo = template.query(query, new TodoRowMapper());
+//
+//        return todo;
+//    }
+
     public List<Todo> getAlltodos(){
         String query = "select * from todos";
-        List<Todo> todo = template.query(query, new TodoRowMapper());
+        List<Todo> todos = template.query(query, (rs, rowNum) -> {
 
-        return todo;
+            Todo todo = new Todo();
+
+            todo.setId((rs.getInt("id")));
+            todo.setTitle((rs.getString("title")));
+            todo.setContent((rs.getString("content")));
+            todo.setStatus((rs.getString("status")));
+            try {
+
+                todo.setAddedDate(Helper.parseDate((LocalDateTime) (rs.getObject("addedDate"))));
+                todo.setTodoDate(Helper.parseDate((LocalDateTime) (rs.getObject("todoDate"))));
+
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+
+
+            return todo;
+        });
+
+        return todos;
     }
 
     public Todo updateTodo(int id, Todo newTodo){
