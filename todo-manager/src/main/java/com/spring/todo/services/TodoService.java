@@ -2,6 +2,7 @@ package com.spring.todo.services;
 
 import com.spring.todo.models.Todo;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface TodoService {
@@ -9,7 +10,7 @@ public interface TodoService {
 
     public List<Todo> getAllTodos();
 
-    public Todo getTodo(int todoId);
+    public Todo getTodo(int todoId) throws ParseException;
 
     public Todo updateTodo(int todoId,Todo todo);
     public void deleteTodo(int todoId);
